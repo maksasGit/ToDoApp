@@ -1,11 +1,14 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import java.util.Scanner;
 
 public class App {
     private List<Widget> widgets;
     private List<ShoppingCart> shoppingCarts;
     private boolean isOpen;
+
+    public ShoppingCart chooseSC = null;
 
     public App() {
         this.widgets = new ArrayList<>();
@@ -34,7 +37,7 @@ public class App {
             if (shopCartId >= 1 && shopCartId <= shoppingCarts.size()) {
                 ShoppingCart chosenShoppingCart = shoppingCarts.get(shopCartId - 1);
                 System.out.println("Shopping Cart \"" + chosenShoppingCart.getName() + "\" is chosen");
-
+                this.chooseSC = chosenShoppingCart;
                 // Start separate manager for the chosen shopping cart
             } else {
                 System.out.println("Invalid Shopping Cart ID");
@@ -117,7 +120,13 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         String inputParts[] = scanner.nextLine().split(":");
         Product newProduct = new Product(inputParts[0] , Integer.parseInt(inputParts[1]));
-
+        showShoppingCarts();
+        if (chooseSC != null) {
+            List<Product> wasProducts = chooseSC.getProducts();
+            wasProducts.add(newProduct);
+            chooseSC.updateProducts(wasProducts);
+            chooseSC = null;
+        }
     }
 
     public void editShoppingCart() {
