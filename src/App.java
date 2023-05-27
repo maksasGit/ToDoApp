@@ -4,8 +4,8 @@ import java.util.PrimitiveIterator;
 import java.util.Scanner;
 
 public class App {
-    private List<Widget> widgets;
-    private List<ShoppingCart> shoppingCarts;
+    private final List<Widget> widgets;
+    private final List<ShoppingCart> shoppingCarts;
     private boolean isOpen;
 
     public ShoppingCart chooseSC = null;
@@ -107,8 +107,7 @@ public class App {
     public void addShoppingCart() {
         System.out.println("Enter info in format: \"ShoppingCartName\"");
         Scanner scanner = new Scanner(System.in);
-        String inputLine = scanner.nextLine();
-        String shoppingCartName = inputLine;
+        String shoppingCartName = scanner.nextLine();
         ShoppingCart newShoppingCart = new ShoppingCart(shoppingCartName);
         System.out.println("New Shopping Cart was created...");
         System.out.println("Shopping Cart called: " + shoppingCartName);
@@ -118,7 +117,7 @@ public class App {
     public void addProduct() {
         System.out.println("Enter info in format: \"Product:Quantity\"");
         Scanner scanner = new Scanner(System.in);
-        String inputParts[] = scanner.nextLine().split(":");
+        String[] inputParts = scanner.nextLine().split(":");
         Product newProduct = new Product(inputParts[0] , Integer.parseInt(inputParts[1]));
         showShoppingCarts();
         if (chooseSC != null) {
@@ -137,11 +136,11 @@ public class App {
         // Implementation of deleteShoppingCart method goes here
     }
 
-    public boolean isOpen() {
+    private boolean isOpen() {
         return isOpen;
     }
 
-    public void inputCheck(String inputString) {
+    private void inputCheck(String inputString) {
         char inputNum = inputString.charAt(0);
         switch (inputNum) {
             case '1' -> this.addWidget();
@@ -159,7 +158,6 @@ public class App {
                     System.out.println("/show --- show menu");
                     System.out.println("---------------------------------");
                 }
-                break;
             }
             case '6' -> this.isOpen = false;
         }
@@ -172,5 +170,24 @@ public class App {
         System.out.println("3: Create Shopping Cart");
         System.out.println("4: Show Shopping Cart");
         System.out.println("6: Close App");
+    }
+
+    public void run() {
+        System.out.println("Shopping Cart Application Start...");
+        System.out.println("---------------------------------");
+        System.out.println("Some helpful info:");
+        System.out.println("/help --- help info");
+        System.out.println("/show --- show menu");
+        System.out.println("---------------------------------");
+
+        Scanner scanner = new Scanner(System.in);
+        while (this.isOpen()) {
+            String inputString = scanner.nextLine();
+            System.out.println(inputString);
+            this.inputCheck(inputString);
+        }
+
+        System.out.println("---------------------------------");
+        System.out.println("Goodbye:)");
     }
 }

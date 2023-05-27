@@ -1,6 +1,6 @@
 public class User {
-    private String login;
-    private String name;
+    private final String login;
+    private final String name;
 
     public User(String login, String name) {
         this.login = login;
