@@ -1,26 +1,36 @@
 public class Product {
-    private String name;
+	private String name;
+	private int quantity;
+	private boolean marked;
 
-    private int quantity;
+	public Product(String name, int quantity) {
+		this.name = name;
+		this.quantity = quantity;
+		this.marked = false;
+	}
 
-    public Product(String name, int quantity) {
-        this.name = name;
-        this.quantity = quantity;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public int getQuantity() {
+		return this.quantity;
+	}
 
-    public int getQuantity() {
-        return this.quantity;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+	public void mark() {
+		if (!this.marked) {
+			this.marked = true;
+		}else {
+			System.out.println("This product is already marked!");
+		}
+
+	}
 }
