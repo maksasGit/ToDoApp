@@ -19,29 +19,33 @@ public class App {
 
 	public void showShoppingCarts() {
 		System.out.println("Work with ShoppingCarts:");
-		System.out.println("    0 - to skip");
-		System.out.println("    ShopCartID - to choose");
+		System.out.println("\t0 - cancel");
+		System.out.println("\tShopCartID - to choose");
 
 		int index = 1;
 		for (ShoppingCart shoppingCart : shoppingCarts) {
 			System.out.println(index + ": " + shoppingCart.getName());
 			index++;
 		}
+	}
 
+
+	public int chooseShoppingCart(){
 		Scanner scanner = new Scanner(System.in);
 		String inputLine = scanner.nextLine();
 
 		if (inputLine.equals("0")) {
-			System.out.println("Skipped...");
+			System.out.println("Action canceled");
+			return -1;
 		} else {
 			int shopCartId = Integer.parseInt(inputLine);
 			if (shopCartId >= 1 && shopCartId <= shoppingCarts.size()) {
 				ShoppingCart chosenShoppingCart = shoppingCarts.get(shopCartId - 1);
 				System.out.println("Shopping Cart \"" + chosenShoppingCart.getName() + "\" is chosen");
-				this.chooseSC = chosenShoppingCart;
-				// Start separate manager for the chosen shopping cart
+				return shopCartId;
 			} else {
 				System.out.println("Invalid Shopping Cart ID");
+				return -1;
 			}
 		}
 	}
@@ -52,29 +56,30 @@ public class App {
 
 	public void showWidgets() {
 		System.out.println("Work with Widgets:");
-		System.out.println("    0 - to skip");
-		System.out.println("    WidgetID - to choose");
+		System.out.println("\t0 - cancel");
+		System.out.println("\tWidgetID - to choose");
 
-		int index = 1;
-		for (Widget widget : widgets) {
-			System.out.println(index + ": " + widget.getName());
-			index++;
-		}
+	}
+
+
+	public int chooseWidget(){
 
 		Scanner scanner = new Scanner(System.in);
 		String inputLine = scanner.nextLine();
 
 		if (inputLine.equals("0")) {
-			System.out.println("Skipped...");
+			System.out.println("Action canceled");
+			return -1;
 		} else {
 			int widgetId = Integer.parseInt(inputLine);
 			if (widgetId >= 1 && widgetId <= widgets.size()) {
 				Widget chosenWidget = widgets.get(widgetId - 1);
 				System.out.println("Widget \"" + chosenWidget.getName() + "\" is chosen");
+				return widgetId;
 
-				// Start separate manager for the chosen widget
 			} else {
 				System.out.println("Invalid Widget ID");
+				return -1;
 			}
 		}
 	}
@@ -120,12 +125,35 @@ public class App {
 		Scanner scanner = new Scanner(System.in);
 		String[] inputParts = scanner.nextLine().split(":");
 		Product newProduct = new Product(inputParts[0], Integer.parseInt(inputParts[1]));
-		showShoppingCarts();
-		if (chooseSC != null) {
-			List<Product> wasProducts = chooseSC.getProducts();
-			wasProducts.add(newProduct);
-			chooseSC.updateProducts(wasProducts);
-			chooseSC = null;
+		String WidgetOrShoppingCart = "Add product to:\n";
+		int lenCheck = WidgetOrShoppingCart.length();
+		if (widgets.size()>0) WidgetOrShoppingCart += "\tWidget - w\n";
+		if (shoppingCarts.size()>0) WidgetOrShoppingCart += "\tShoppingCart - s\n";
+		if (WidgetOrShoppingCart.length()!=lenCheck){
+			System.out.println(WidgetOrShoppingCart);
+			scanner = new Scanner(System.in);
+			String inputLine = scanner.nextLine();
+			if (inputLine.equals("w")){
+				showWidgets();
+				int variant = chooseWidget();
+				if (variant>0){
+					List<Product> newProducts = widgets.get(variant-1).getProducts();
+					newProducts.add(newProduct);
+					widgets.get(variant-1).updateProducts(newProducts);
+					System.out.println("Product \"" + newProduct.getName() +"\" added to Widget + \"" + widgets.get(variant-1).getName() +"\"");
+				}
+			} else if (inputLine.equals("s")){
+				showShoppingCarts();
+				int variant = chooseShoppingCart();
+				if (variant>0){
+					List<Product> newProducts = shoppingCarts.get(variant-1).getProducts();
+					newProducts.add(newProduct);
+					shoppingCarts.get(variant-1).updateProducts(newProducts);
+					System.out.println("Product \"" + newProduct.getName() +"\" added to ShoppingCart + \"" + shoppingCarts.get(variant-1).getName() +"\"");
+				}
+			} else {
+				System.out.println("Action canceled");
+			}
 		}
 	}
 
@@ -173,7 +201,7 @@ public class App {
 		System.out.println("Menu:");
 		System.out.println("1: Create Widget");
 		System.out.println("2: Show Widgets");
-		System.out.println("7: Create Product");
+		if(shoppingCarts.size() > 0 || widgets.size()>0)  System.out.println("7: Add Product");
 		System.out.println("3: Create Shopping Cart");
 		System.out.println("4: Show Shopping Cart");
 		System.out.println("6: Close App");
