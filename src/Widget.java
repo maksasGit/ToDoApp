@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Widget {
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
     private List<Product> products;
 
     public Widget(String name, String description) {
