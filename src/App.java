@@ -164,7 +164,7 @@ public class App {
 				}
 			}
 			case '6' -> this.isOpen = false;
-			default -> System.out.println("Incorrect input!!!");
+			default -> {}
 		}
 	}
 
