@@ -241,9 +241,15 @@ public class App {
 		char inputNum = inputString.charAt(0);
 		switch (inputNum) {
 			case '1' -> this.addWidget();
-			case '2' -> this.showWidgets();
+			case '2' -> {
+				this.showWidgets();
+				this.chooseWidget();
+			}
 			case '3' -> this.addShoppingCart();
-			case '4' -> this.showShoppingCarts();
+			case '4' -> {
+				this.showShoppingCarts();
+				this.chooseShoppingCart();
+			}
 			case '5' -> this.manageShoppingCart();
 			case '6' -> this.addProduct();
 			case '7' -> this.addWidgetToShoppingCart();
