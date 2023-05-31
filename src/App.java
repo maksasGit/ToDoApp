@@ -52,9 +52,6 @@ public class App {
 		}
 	}
 
-	public void editProducts() {
-		// Implementation of editProducts method goes here
-	}
 
 	public void showWidgets() {
 		System.out.println("Work with Widgets:");
@@ -169,7 +166,9 @@ public class App {
 	}
 
 	public void deleteWidget() {
-		// Implementation of deleteWidget method goes here
+		this.showWidgets();
+		int Wnum = this.chooseWidget();
+		widgets.remove(Wnum-1);
 	}
 
 	public void addShoppingCart() {
@@ -223,11 +222,19 @@ public class App {
 	}
 
 	public void editShoppingCart() {
-		// Implementation of editShoppingCart method goes here
+		this.showShoppingCarts();
+		int SCnum = this.chooseShoppingCart();
+		System.out.println("Enter new Shopping Cart name: \"ShoppingCartName\"");
+		Scanner scanner = new Scanner(System.in);
+		String newShoppingCartName = scanner.nextLine();
+		shoppingCarts.get(SCnum-1).setName(newShoppingCartName);
+		System.out.println("Name Changed...");
 	}
 
 	public void deleteShoppingCart() {
-		// Implementation of deleteShoppingCart method goes here
+		this.showShoppingCarts();
+		int SCnum = this.chooseShoppingCart();
+		shoppingCarts.remove(SCnum-1);
 	}
 
 	private boolean isOpen() {
@@ -239,21 +246,24 @@ public class App {
 			return;
 		}
 		char inputNum = inputString.charAt(0);
-		switch (inputNum) {
-			case '1' -> this.addWidget();
-			case '2' -> {
+		switch (inputString) {
+			case "1" -> this.addWidget();
+			case "2" -> {
 				this.showWidgets();
 				this.chooseWidget();
 			}
-			case '3' -> this.addShoppingCart();
-			case '4' -> {
+			case "3" -> this.addShoppingCart();
+			case "4" -> {
 				this.showShoppingCarts();
 				this.chooseShoppingCart();
 			}
-			case '5' -> this.manageShoppingCart();
-			case '6' -> this.addProduct();
-			case '7' -> this.addWidgetToShoppingCart();
-			case '8' -> this.isOpen = false;
+			case "5" -> this.manageShoppingCart();
+			case "6" -> this.addProduct();
+			case "7" -> this.addWidgetToShoppingCart();
+			case "23" -> this.deleteShoppingCart();
+			case "22" -> this.deleteWidget();
+			case "21" -> this.editShoppingCart();
+			case "8" -> this.isOpen = false;
 			default -> {
 			}
 		}
@@ -267,8 +277,12 @@ public class App {
 		System.out.println("3: Create Shopping Cart");
 		System.out.println("4: Show Shopping Cart");
 		System.out.println("5: Manage Shopping Cart");
+		System.out.println("23: Delete Shopping Cart");
+		System.out.println("22: Delete Widget");
+		System.out.println("21: Change Shopping Cart name");
 		if (shoppingCarts.size() > 0 || widgets.size() > 0) System.out.println("6: Add Product");
 		if (shoppingCarts.size() > 0 && widgets.size() > 0) System.out.println("7: Add Widget to Shopping Cart");
+
 		System.out.println("8: Close App");
 
 	}
